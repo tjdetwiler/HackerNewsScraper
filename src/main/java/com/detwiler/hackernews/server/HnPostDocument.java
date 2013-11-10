@@ -1,6 +1,6 @@
 package com.detwiler.hackernews.server;
 
-import com.detwiler.hackernews.HnComment;
+import com.detwiler.hackernews.model.HnComment;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;

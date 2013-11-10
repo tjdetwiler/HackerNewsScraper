@@ -1,4 +1,4 @@
-package com.detwiler.hackernews;
+package com.detwiler.hackernews.model;
 
 import java.util.ArrayList;
 import java.util.Collections;

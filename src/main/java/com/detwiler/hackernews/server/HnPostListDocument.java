@@ -1,7 +1,7 @@
 package com.detwiler.hackernews.server;
 
-import com.detwiler.hackernews.HnPost;
 import com.detwiler.hackernews.HnPostCategory;
+import com.detwiler.hackernews.model.HnSubmission;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -20,7 +20,7 @@ public class HnPostListDocument extends HnDocument {
     private static final Pattern MORE_LINK_TEXT = Pattern.compile("More");
 
     private HnPostCategory mCategory;
-    private List<HnPost> mPosts;
+    private List<HnSubmission> mPosts;
     private String mNextPageHref;
 
     public HnPostListDocument(final Document document, final HnPostCategory category) {
@@ -53,11 +53,11 @@ public class HnPostListDocument extends HnDocument {
         return mCategory;
     }
 
-    public List<HnPost> getPosts() {
+    public List<HnSubmission> getPosts() {
         return mPosts;
     }
 
-    private HnPost parsePost(final Element postRow, final Element commentRow) {
+    private HnSubmission parsePost(final Element postRow, final Element commentRow) {
         Elements e;
         final Element td = postRow.select("td.title>a").get(0);
         final String title = td.ownText();
@@ -107,23 +107,21 @@ public class HnPostListDocument extends HnDocument {
             else
                 throw new RuntimeException("error");
         }
-        HnPost post = new HnPost(id, url, title, userId, points);
+        HnSubmission post = new HnSubmission(id, url, title, userId, points);
         post.setVotingEnabled(!ycPost);
         post.setSelfPost(selfPost);
         return post;
     }
 
-    private List<HnPost> parseDocument() {
+    private List<HnSubmission> parseDocument() {
         Elements elements = getDocument().select("table table");
         elements = elements.get(1).select("td.title:first-child");
-        ArrayList<HnPost> nodes = new ArrayList<HnPost>(elements.size());
+        ArrayList<HnSubmission> nodes = new ArrayList<HnSubmission>(elements.size());
         for (int i=0; i<elements.size(); ++i) {
             final Element postNode = elements.get(i).parent();
             final Element commentsNode = (Element)postNode.nextSibling();
             nodes.add(parsePost(postNode, commentsNode));
         }
-
-
         return nodes;
     }
 }
