@@ -1,14 +1,10 @@
 package com.detwiler.hackernews;
 
 import com.detwiler.hackernews.server.HnConnection;
+import com.detwiler.hackernews.server.HnPostDocument;
 import com.detwiler.hackernews.server.HnPostListDocument;
 
-import org.jsoup.Connection;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-
 import java.io.IOException;
-import java.util.List;
 
 public class HnScraper {
 
@@ -27,5 +23,9 @@ public class HnScraper {
 
     public HnPostListDocument getJobPosts() throws IOException {
         return getPostsForCategory(HnPostCategory.JOBS);
+    }
+
+    public HnPostDocument getPost(final String id) throws IOException {
+        return HnConnection.getInstance().fetchPost(id);
     }
 }

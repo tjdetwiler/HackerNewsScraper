@@ -40,4 +40,15 @@ public class HnConnection {
         final Document document = Jsoup.connect(fullUrl).get();
         return new HnPostListDocument(document, category);
     }
+
+    public HnPostDocument fetchPost(final String id) throws IOException {
+        final String url = getUrlForPost(id);
+        System.out.println("Connecting to url: " + url);
+        final Document document = Jsoup.connect(url).get();
+        return new HnPostDocument(document);
+    }
+
+    private String getUrlForPost(final String id) {
+        return "https://" + HnConnection.HN_BASE_URL + "/item?id=" + id;
+    }
 }
