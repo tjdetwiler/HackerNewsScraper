@@ -20,8 +20,8 @@ public class HnPostDocument extends HnDocument {
 
     private List<HnComment> mComments;
 
-    public HnPostDocument(final Document document) {
-        super(document);
+    public HnPostDocument(final HnConnection conn, final Document document) {
+        super(conn, document);
         mComments = parsePost();
     }
 
@@ -45,7 +45,6 @@ public class HnPostDocument extends HnDocument {
 
         // Extract user/post id
         es = commentElement.select("span.comhead>a");
-        System.out.println(">>>>" + es.get(0));
         String userId = es.get(0).text();
         String commentHref = es.get(1).attr("href");
         String postId = "";

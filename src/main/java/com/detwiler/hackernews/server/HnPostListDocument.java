@@ -23,8 +23,9 @@ public class HnPostListDocument extends HnDocument {
     private List<HnSubmission> mPosts;
     private String mNextPageHref;
 
-    public HnPostListDocument(final Document document, final HnPostCategory category) {
-        super(document);
+    public HnPostListDocument(final HnConnection connection, final Document document,
+                              final HnPostCategory category) {
+        super(connection, document);
         mCategory = category;
         mPosts = parseDocument();
         Element moreHref = getDocument().select("table table").select("a").last();
@@ -42,7 +43,7 @@ public class HnPostListDocument extends HnDocument {
         if (!hasMore()) {
             return null;
         }
-        return HnConnection.getInstance().fetchPostList(getNextPageHref(), getCategory());
+        return getConnection().fetchPostList(getNextPageHref(), getCategory());
     }
 
     public String getNextPageHref() {

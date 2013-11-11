@@ -4,12 +4,18 @@ import org.jsoup.nodes.Document;
 
 public class HnDocument {
     private Document mDocument;
+    private HnConnection mConnection;
 
-    public HnDocument(Document doc) {
+    public HnDocument(final HnConnection conn, final Document doc) {
         mDocument = doc;
+        mConnection = conn;
     }
 
-    protected Document getDocument() {
+    public Document getDocument() {
         return mDocument;
+    }
+
+    public HnConnection getConnection() {
+        return mConnection;
     }
 }
