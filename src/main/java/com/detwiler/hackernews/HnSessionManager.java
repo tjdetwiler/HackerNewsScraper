@@ -1,4 +1,4 @@
-package com.detwiler.hackernews.server;
+package com.detwiler.hackernews;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -7,7 +7,7 @@ import java.util.Map;
 /**
  * Manages sessions and authentication for users.
  */
-public class HnSessionManager {
+class HnSessionManager {
 
     /**
      * Interface to allow the application to provide authentication information for a user.
@@ -19,7 +19,7 @@ public class HnSessionManager {
          * @param username Username that needs authenticated.
          * @return The users password, or null if it is not known.
          */
-        public String getPasswordForUser(String username);
+        String getPasswordForUser(String username);
     }
 
     private Map<String, HnSession> mActiveSessions;

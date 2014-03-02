@@ -1,10 +1,10 @@
-package com.detwiler.hackernews.server;
+package com.detwiler.hackernews;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public class HnSession {
+class HnSession {
     private Map<String, String> mSessionCookies;
 
     public HnSession() {

@@ -1,40 +1,33 @@
 package com.detwiler.hackernews;
 
-import com.detwiler.hackernews.model.HnPost;
-import com.detwiler.hackernews.server.HnConnection;
-import com.detwiler.hackernews.server.HnLoginDocument;
-import com.detwiler.hackernews.server.HnPostDocument;
-import com.detwiler.hackernews.server.HnPostListDocument;
-import com.detwiler.hackernews.server.HnSession;
-import com.detwiler.hackernews.server.HnSessionManager;
-
 import java.io.IOException;
 
+/**
+ * Interface to perform common operations.
+ */
 public class HnScraper {
     private HnSessionManager mSessionManager;
     private HnConnection mConnection;
 
+    /** Constructs a new {@link com.detwiler.hackernews.HnScraper}. */
     public HnScraper() {
         mConnection = new HnConnection();
     }
 
+    /**
+     * Requests the first page of posts for a given category.
+     * @param category Page to request posts for.
+     * @return An {@link HnPostListDocument} containing the requested data.
+     * @throws IOException In case of network error.
+     */
     public HnPostListDocument getPostsForCategory(final HnPostCategory category)
             throws IOException {
         return getConnection().fetchPostList(category);
     }
 
-    public HnPostListDocument getTopPosts() throws IOException {
-        return getPostsForCategory(HnPostCategory.TOP);
-    }
-
-    public HnPostListDocument getNewPosts() throws IOException {
-        return getPostsForCategory(HnPostCategory.NEW);
-    }
-
-    public HnPostListDocument getJobPosts() throws IOException {
-        return getPostsForCategory(HnPostCategory.JOBS);
-    }
-
+    /**
+     * @see {@link #getPost(String)}
+     */
     public HnPostDocument getPost(final HnPost post) throws  IOException {
         if (post == null) {
             return null;
@@ -42,14 +35,31 @@ public class HnScraper {
         return getPost(post.getPostId());
     }
 
+    /**
+     * Requests a single post (with comments) from the server.
+     * @param id Post id to download.
+     * @return An {@link HnPostDocument} containing the requested data.
+     * @throws IOException In case of network error.
+     */
     public HnPostDocument getPost(final String id) throws IOException {
         return getConnection().fetchPost(id);
     }
 
+    /**
+     * Sets the delegate used to lookup credentials for a user. This is only required if used in conjunction with
+     * {@link #setActiveUser(String)}.
+     * @param delegate Called to lookup user credentials.
+     */
     public void setCredentialDelegate(final HnSessionManager.CredentialDelegate delegate) {
         mSessionManager = new HnSessionManager(mConnection, delegate);
     }
 
+    /**
+     * Sets the username to use and attempts to login and obtain a session cookie.
+     * @param username Username to pass to the server.
+     * @throws HnAuthenticationException An error occurred while authenticating.
+     * @see {@link #setCredentialDelegate(HnSessionManager.CredentialDelegate)}
+     */
     public void setActiveUser(final String username) throws HnAuthenticationException {
         if (mSessionManager == null) {
             throw new HnAuthenticationException("No CredentialDelegate provided");

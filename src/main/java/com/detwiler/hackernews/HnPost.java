@@ -1,15 +1,18 @@
-package com.detwiler.hackernews.model;
-
-import com.detwiler.hackernews.server.HnConnection;
+package com.detwiler.hackernews;
 
 /**
- * A {@link com.detwiler.hackernews.model.HnPost} is anything that has a post id on Hacker News. This can be a
+ * A {@link HnPost} is anything that has a post id on Hacker News. This can be a
  * "Submission" (ex: link or self post), or a comment.
  */
 public abstract class HnPost {
     private String mPostId;
     private String mOwner;
 
+    /**
+     * Initialize this post.
+     * @param postId Post ID on Hacker News.
+     * @param owner Username of the author of the comment.
+     */
     public HnPost(final String postId, final String owner) {
         mPostId = postId;
         mOwner = owner;

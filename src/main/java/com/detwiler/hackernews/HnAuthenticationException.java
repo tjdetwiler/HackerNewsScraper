@@ -1,16 +1,16 @@
 package com.detwiler.hackernews;
 
+/**
+ * Exception thrown when performing any authentication operation.
+ */
 public class HnAuthenticationException extends HnException {
 
-    public HnAuthenticationException() {
-        super();
-    }
-
+    /**
+     * Constructs a new exception with the given message.
+     *
+     * @param message Error message.
+     */
     public HnAuthenticationException(final String message) {
         super(message);
-    }
-
-    public HnAuthenticationException(final String message, final Throwable cause) {
-        super(message, cause);
     }
 }

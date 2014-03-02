@@ -1,16 +1,14 @@
 package com.detwiler.hackernews;
 
+/**
+ * Base class for exceptions in this library.
+ */
 public class HnException extends Exception {
 
-    public HnException() {
-        super();
-    }
-
+    /**
+     * @param message Message describing the nature of the exception.
+     */
     public HnException(final String message) {
         super(message);
-    }
-
-    public HnException(final String message, Throwable cause) {
-        super(message, cause);
     }
 }

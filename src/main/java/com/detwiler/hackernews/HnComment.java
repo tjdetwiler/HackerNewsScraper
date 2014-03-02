@@ -1,4 +1,4 @@
-package com.detwiler.hackernews.model;
+package com.detwiler.hackernews;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,6 +19,11 @@ public class HnComment extends HnPost {
         return new HnComment(null, null, null, parent);
     }
 
+    /**
+     * Creates a new comment instance.
+     * @param text Comment text.
+     * @param parent Parent comment (in case of a reply), or null if none.
+     */
     public HnComment(final String postId, final String owner, final String text, final HnComment parent) {
         super(postId, owner);
         mReplies = new ArrayList<>();
@@ -32,8 +37,8 @@ public class HnComment extends HnPost {
     public String getText() { return mText; }
 
     /**
-     * Returns the {@link com.detwiler.hackernews.model.HnComment} to which this
-     * {@link com.detwiler.hackernews.model.HnComment} is a reply, or {@code null} if this is a top-level comment.
+     * Returns the {@link HnComment} to which this
+     * {@link HnComment} is a reply, or {@code null} if this is a top-level comment.
      */
     public HnComment getParent() { return mParent; }
 

@@ -1,7 +1,4 @@
-package com.detwiler.hackernews.server;
-
-import com.detwiler.hackernews.HnPostCategory;
-import com.detwiler.hackernews.model.HnSubmission;
+package com.detwiler.hackernews;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -13,6 +10,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * A document representing a list of submissions (Top, Jobs, etc).
+ */
 public class HnPostListDocument extends HnDocument {
     private static final Pattern SELF_POST_REGEX = Pattern.compile("item\\?id\\=(\\d+)");
     private static final Pattern UPVOTE_ID_REGEX = Pattern.compile("up_(\\d+)");
@@ -23,7 +23,7 @@ public class HnPostListDocument extends HnDocument {
     private List<HnSubmission> mPosts;
     private String mNextPageHref;
 
-    public HnPostListDocument(final HnConnection connection, final Document document,
+    HnPostListDocument(final HnConnection connection, final Document document,
                               final HnPostCategory category) {
         super(connection, document);
         mCategory = category;
@@ -35,19 +35,17 @@ public class HnPostListDocument extends HnDocument {
         }
     }
 
+    /** Returns {@code true} if this document has a continuation on the server. */
     public boolean hasMore() {
         return mNextPageHref != null;
     }
 
+    /** Loads the next page via continuation on the server. */
     public HnPostListDocument more() throws IOException {
         if (!hasMore()) {
             return null;
         }
-        return getConnection().fetchPostList(getNextPageHref(), getCategory());
-    }
-
-    public String getNextPageHref() {
-        return mNextPageHref;
+        return getConnection().fetchPostList(mNextPageHref, getCategory());
     }
 
     public HnPostCategory getCategory() {
@@ -103,10 +101,11 @@ public class HnPostListDocument extends HnDocument {
             e = commentRow.select("span");
             final String pointsText = e.get(0).ownText();
             final Matcher m = POINTS_REGEX.matcher(pointsText);
-            if (m.matches())
+            if (m.matches()) {
                 points = Integer.parseInt(m.group(1));
-            else
+            } else {
                 throw new RuntimeException("error");
+            }
         }
         HnSubmission post = new HnSubmission(id, userId, url, title, points);
         post.setVotingEnabled(!ycPost);
@@ -117,10 +116,10 @@ public class HnPostListDocument extends HnDocument {
     private List<HnSubmission> parseDocument() {
         Elements elements = getDocument().select("table table");
         elements = elements.get(1).select("td.title:first-child");
-        ArrayList<HnSubmission> nodes = new ArrayList<HnSubmission>(elements.size());
-        for (int i=0; i<elements.size(); ++i) {
-            final Element postNode = elements.get(i).parent();
-            final Element commentsNode = (Element)postNode.nextSibling();
+        ArrayList<HnSubmission> nodes = new ArrayList<>(elements.size());
+        for (Element postNode : elements) {
+            postNode = postNode.parent();
+            final Element commentsNode = (Element) postNode.nextSibling();
             nodes.add(parsePost(postNode, commentsNode));
         }
         return nodes;

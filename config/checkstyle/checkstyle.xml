@@ -80,6 +80,9 @@
             <property name="allowUndeclaredRTE" value="true"/>
             <property name="allowThrowsTagsForSubclasses" value="true"/>
             <property name="allowMissingPropertyJavadoc" value="true"/>
+            <property name="allowMissingReturnTag" value="true"/>
+            <property name="allowMissingParamTags" value="true"/>
+            <property name="allowMissingThrowsTags" value="true"/>
             <property name="scope" value="protected"/>
         </module>
         <module name="JavadocType">
@@ -193,10 +196,7 @@
         <!-- Miscellaneous other checks.                   -->
         <!-- See http://checkstyle.sf.net/config_misc.html -->
         <module name="ArrayTypeStyle"/>
-        <module name="FinalParameters">
-            <!-- MR: enforce final parameters only for constructors -->
-            <property name="tokens" value="CTOR_DEF"/>
-        </module>
+        <module name="FinalParameters"/>
         <!-- <module name="TodoComment"/> -->
         <module name="UpperEll"/>
         <module name="NestedIfDepth">

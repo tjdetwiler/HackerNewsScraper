@@ -1,6 +1,4 @@
-package com.detwiler.hackernews.server;
-
-import com.detwiler.hackernews.model.HnComment;
+package com.detwiler.hackernews;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -14,17 +12,21 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * A document representing a single submission.
+ */
 public class HnPostDocument extends HnDocument {
     private static final Pattern SELF_POST_REGEX = Pattern.compile("item\\?id\\=(\\d+)");
     private static final int REPLY_INDENT = 40;
 
     private List<HnComment> mComments;
 
-    public HnPostDocument(final HnConnection conn, final Document document) {
+    HnPostDocument(final HnConnection conn, final Document document) {
         super(conn, document);
         mComments = parsePost();
     }
 
+    /** Returns a list of comments associated with the document. */
     public List<HnComment> getComments() {
         return Collections.unmodifiableList(mComments);
     }
@@ -34,7 +36,7 @@ public class HnPostDocument extends HnDocument {
      * @param parents Mapping of depth (parents are 0, their children are 1, etc), to the most recent comment that has
      *                been seen at this depth. Depth is extracted from information contained in {@code commentElemenet}.
      * @param commentElement DOM node to parse the comment from.
-     * @return {@link com.detwiler.hackernews.model.HnComment} instance representing this DOM node, or null if it is not
+     * @return {@link HnComment} instance representing this DOM node, or null if it is not
      * valid.
      */
     private HnComment parseComment(final Map<Integer, HnComment> parents,

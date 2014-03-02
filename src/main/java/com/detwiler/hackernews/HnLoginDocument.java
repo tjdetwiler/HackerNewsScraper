@@ -1,4 +1,4 @@
-package com.detwiler.hackernews.server;
+package com.detwiler.hackernews;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -9,14 +9,14 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class HnLoginDocument extends HnDocument {
+class HnLoginDocument extends HnDocument {
     private static final String FNID_PARAM = "fnid";
     private static final String USERNAME_PARAM = "u";
     private static final String PASSWORD_PARAM = "p";
     private String mFnid;
     private String mLoginAction;
 
-    public HnLoginDocument(final HnConnection conn, final Document doc) {
+    HnLoginDocument(final HnConnection conn, final Document doc) {
         super(conn, doc);
         parseDocument();
     }

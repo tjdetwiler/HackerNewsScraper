@@ -1,6 +1,4 @@
-package com.detwiler.hackernews.server;
-
-import com.detwiler.hackernews.HnPostCategory;
+package com.detwiler.hackernews;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -8,7 +6,7 @@ import org.jsoup.nodes.Document;
 
 import java.io.IOException;
 
-public class HnConnection {
+class HnConnection {
     protected static final String USER_AGENT_FIREFOX25_LINUX =
             "Mozilla/5.0 (X11; Linux x86_64; rv:25.0) Gecko/20100101 Firefox/25.0";
     public static final String HN_BASE_URL = "news.ycombinator.com";
@@ -31,12 +29,13 @@ public class HnConnection {
         return fetchPostList(category.getUrl(), category);
     }
 
-    public HnPostListDocument fetchPostList(String url, final HnPostCategory category)
+    public HnPostListDocument fetchPostList(final String url, final HnPostCategory category)
             throws IOException {
-        if (!url.startsWith("/")) {
-            url = "/" + url;
+        String fullUrl = url;
+        if (!fullUrl.startsWith("/")) {
+            fullUrl = "/" + fullUrl;
         }
-        final String fullUrl = "http://" + HN_BASE_URL + url;
+        fullUrl = "http://" + HN_BASE_URL + fullUrl;
         final Document document = get(fullUrl);
         return new HnPostListDocument(this, document, category);
     }

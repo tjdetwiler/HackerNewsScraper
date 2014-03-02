@@ -1,8 +1,5 @@
 package com.detwiler.hackernews;
 
-import com.detwiler.hackernews.model.HnSubmission;
-import com.detwiler.hackernews.server.HnConnection;
-import com.detwiler.hackernews.server.HnPostListDocument;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.junit.Before;

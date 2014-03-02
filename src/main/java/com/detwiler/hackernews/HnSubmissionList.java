@@ -1,8 +1,4 @@
-package com.detwiler.hackernews.server;
-
-import com.detwiler.hackernews.HnPostCategory;
-import com.detwiler.hackernews.HnScraper;
-import com.detwiler.hackernews.model.HnSubmission;
+package com.detwiler.hackernews;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -10,7 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Provides a simplified interface to interact with {@link com.detwiler.hackernews.server.HnPostListDocument}s.
+ * Provides a simplified interface to interact with {@link HnPostListDocument}s.
  */
 public class HnSubmissionList {
     private HnScraper mScraper;
@@ -18,7 +14,7 @@ public class HnSubmissionList {
     private HnPostListDocument mLastLoadedDocument;
     private List<HnSubmission> mSubmissions;
 
-    public HnSubmissionList(final HnScraper scraper, final HnPostCategory category) {
+    HnSubmissionList(final HnScraper scraper, final HnPostCategory category) {
         mScraper = scraper;
         mCategory = category;
         mSubmissions = new ArrayList<>();
