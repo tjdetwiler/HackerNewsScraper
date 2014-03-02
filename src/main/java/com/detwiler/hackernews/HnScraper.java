@@ -46,13 +46,13 @@ public class HnScraper {
         mSessionManager = new HnSessionManager(mConnection, delegate);
     }
 
-    public void setActiveUser(final String username) throws AuthenticationException {
+    public void setActiveUser(final String username) throws HnAuthenticationException {
         if (mSessionManager == null) {
-            throw new AuthenticationException("No CredentialDelegate provided");
+            throw new HnAuthenticationException("No CredentialDelegate provided");
         }
         HnSession session = mSessionManager.getSessionForUser(username, false);
         if (session == null) {
-            throw new AuthenticationException("Unable to authenticate session");
+            throw new HnAuthenticationException("Unable to authenticate session");
         }
         getConnection().setSession(session);
     }
