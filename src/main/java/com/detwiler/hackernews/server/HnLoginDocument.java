@@ -10,22 +10,24 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class HnLoginDocument extends HnDocument {
+    private static final String FNID_PARAM = "fnid";
+    private static final String USERNAME_PARAM = "u";
+    private static final String PASSWORD_PARAM = "p";
     private String mFnid;
     private String mLoginAction;
-    private final String mFnidParam = "fnid";
-    private final String mUsernameParam = "u";
-    private final String mPasswordParam = "p";
 
     public HnLoginDocument(final HnConnection conn, final Document doc) {
         super(conn, doc);
         parseDocument();
     }
 
-    protected String getFnid() { return mFnid; }
-    protected String getLoginUrl() { return mLoginAction; }
-    protected String getFnidParam() { return mFnidParam; }
-    protected String getUsernameParam() { return mUsernameParam; }
-    protected String getPasswordParam() { return mPasswordParam; }
+    protected String getFnid() {
+        return mFnid;
+    }
+
+    protected String getLoginUrl() {
+        return mLoginAction;
+    }
 
     private void parseDocument() {
         Element fnidElement = getDocument().select("input[name=fnid]").get(0);
@@ -42,9 +44,9 @@ public class HnLoginDocument extends HnDocument {
         url.append(getLoginUrl());
 
         Map<String, String> data = new HashMap<String, String>();
-        data.put(getUsernameParam(), username);
-        data.put(getPasswordParam(), pw);
-        data.put(getFnidParam(), getFnid());
+        data.put(USERNAME_PARAM, username);
+        data.put(PASSWORD_PARAM, pw);
+        data.put(FNID_PARAM, getFnid());
         try {
             Connection conn = Jsoup.connect(url.toString());
             conn.data(data);

@@ -8,7 +8,7 @@ public class HnSession {
     private Map<String, String> mSessionCookies;
 
     public HnSession() {
-        mSessionCookies = new HashMap<String, String>();
+        mSessionCookies = new HashMap<>();
     }
 
     public void setCookies(final Map<String, String> cookies) {

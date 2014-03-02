@@ -46,10 +46,6 @@ public class HnScraper {
         return getConnection().fetchPost(id);
     }
 
-    public HnLoginDocument getLogin(final String username, final String pw) throws IOException {
-        return getConnection().fetchLogin();
-    }
-
     public void setCredentialDelegate(final HnSessionManager.CredentialDelegate delegate) {
         mSessionManager = new HnSessionManager(mConnection, delegate);
     }

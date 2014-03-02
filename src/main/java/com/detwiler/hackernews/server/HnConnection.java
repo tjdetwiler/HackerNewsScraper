@@ -7,7 +7,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.io.IOException;
-import java.util.Map;
 
 public class HnConnection {
     protected static final String USER_AGENT_FIREFOX25_LINUX =

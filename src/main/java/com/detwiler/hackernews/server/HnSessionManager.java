@@ -28,7 +28,7 @@ public class HnSessionManager {
 
     public HnSessionManager(final HnConnection connection,
                             final CredentialDelegate credentialDelegate) {
-        mActiveSessions = new HashMap<String, HnSession>();
+        mActiveSessions = new HashMap<>();
         mConnection = connection;
         mCredentialDelegate = credentialDelegate;
     }
