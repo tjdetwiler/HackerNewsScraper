@@ -1,4 +1,5 @@
 apply plugin: 'java'
+apply plugin: 'checkstyle'
 
 repositories {
     mavenCentral()
@@ -9,4 +10,10 @@ dependencies {
 
     testCompile 'org.mockito:mockito-all:1.8.4'
     testCompile 'junit:junit:4.10'
+}
+
+checkstyle {
+    configProperties = [
+        'checkstyle.cache.file': file('build/checkstyle.cache')
+    ]
 }
