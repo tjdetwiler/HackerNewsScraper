@@ -50,7 +50,7 @@ public class HnScraper {
      * {@link #setActiveUser(String)}.
      * @param delegate Called to lookup user credentials.
      */
-    public void setCredentialDelegate(final HnSessionManager.CredentialDelegate delegate) {
+    public void setCredentialDelegate(final HnCredentialDelegate delegate) {
         mSessionManager = new HnSessionManager(mConnection, delegate);
     }
 
@@ -58,7 +58,7 @@ public class HnScraper {
      * Sets the username to use and attempts to login and obtain a session cookie.
      * @param username Username to pass to the server.
      * @throws HnAuthenticationException An error occurred while authenticating.
-     * @see {@link #setCredentialDelegate(HnSessionManager.CredentialDelegate)}
+     * @see {@link #setCredentialDelegate(HnCredentialDelegate)}
      */
     public void setActiveUser(final String username) throws HnAuthenticationException {
         if (mSessionManager == null) {

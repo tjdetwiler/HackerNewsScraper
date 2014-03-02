@@ -8,26 +8,12 @@ import java.util.Map;
  * Manages sessions and authentication for users.
  */
 class HnSessionManager {
-
-    /**
-     * Interface to allow the application to provide authentication information for a user.
-     */
-    public interface CredentialDelegate {
-        /**
-         * Provides the password for a user.
-         *
-         * @param username Username that needs authenticated.
-         * @return The users password, or null if it is not known.
-         */
-        String getPasswordForUser(String username);
-    }
-
     private Map<String, HnSession> mActiveSessions;
-    private CredentialDelegate mCredentialDelegate;
+    private HnCredentialDelegate mCredentialDelegate;
     private HnConnection mConnection;
 
     public HnSessionManager(final HnConnection connection,
-                            final CredentialDelegate credentialDelegate) {
+                            final HnCredentialDelegate credentialDelegate) {
         mActiveSessions = new HashMap<>();
         mConnection = connection;
         mCredentialDelegate = credentialDelegate;
