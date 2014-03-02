@@ -29,43 +29,57 @@ public class HnPostDocument extends HnDocument {
         return Collections.unmodifiableList(mComments);
     }
 
+    /**
+     * Parse a single comment from an {@link org.jsoup.nodes.Element}.
+     * @param parents Mapping of depth (parents are 0, their children are 1, etc), to the most recent comment that has
+     *                been seen at this depth. Depth is extracted from information contained in {@code commentElemenet}.
+     * @param commentElement DOM node to parse the comment from.
+     * @return {@link com.detwiler.hackernews.model.HnComment} instance representing this DOM node, or null if it is not
+     * valid.
+     */
     private HnComment parseComment(final Map<Integer, HnComment> parents,
                                    final Element commentElement) {
         Elements es = commentElement.select("td>img[src=s.gif]");
-        Element e = es.get(0);
-        HnComment comment = new HnComment();
-
-        int depth = Integer.parseInt(e.attr("width")) / REPLY_INDENT;
+        final int depth = Integer.parseInt(es.get(0).attr("width")) / REPLY_INDENT;
+        HnComment parent = null;
         if (depth > 0) {
-            HnComment parent = parents.get(depth-1);
+            parent = parents.get(depth-1);
+        }
+        es = commentElement.select("span.comhead>a");
+        // Extract user/post id
+        if (es.size() == 0) {
+            // This element has no children if the comment has been deleted.
+            return HnComment.deleted(parent);
+        }
+        final String commentHref = es.get(1).attr("href");
+        final Matcher m = SELF_POST_REGEX.matcher(commentHref);
+        if (!m.matches()) {
+            System.out.println(commentHref);
+            System.exit(-1);
+            // ERROR:
+        }
+        final String userId = es.get(0).text();
+        final String postId = m.group(1);
+        final String text = commentElement.select("span.comment>font").get(0).text();
+        final HnComment comment = new HnComment(postId, userId, text, parent);
+        if (parent != null) {
             parent.addReply(comment);
-            comment.setParent(parent);
         }
         parents.put(depth, comment);
 
-        // Extract user/post id
-        es = commentElement.select("span.comhead>a");
-        String userId = es.get(0).text();
-        String commentHref = es.get(1).attr("href");
-        String postId = "";
-        Matcher m = SELF_POST_REGEX.matcher(commentHref);
-        if (m.matches())
-            postId = m.group(1);
-        String text = commentElement.select("span.comment>font").get(0).text();
-
-        comment.setUsername(userId);
-        comment.setPostId(postId);
-        comment.setText(text);
         return comment;
     }
 
     private List<HnComment> parsePost() {
         // so. many. tables.
-        Elements commentElements = getDocument().select("table table table");
-        Map<Integer, HnComment> parents = new HashMap<Integer, HnComment>();
-        List<HnComment> comments = new ArrayList<HnComment>(commentElements.size());
-        for (Element e : commentElements) {
-            comments.add(parseComment(parents, e));
+        final Elements commentElements = getDocument().select("table table table");
+        final Map<Integer, HnComment> parents = new HashMap<Integer, HnComment>();
+        final List<HnComment> comments = new ArrayList<HnComment>(commentElements.size());
+        for (final Element e : commentElements) {
+            final HnComment comment = parseComment(parents, e);
+            if (comment != null && comment.getParent() == null) {
+                comments.add(comment);
+            }
         }
         return comments;
     }

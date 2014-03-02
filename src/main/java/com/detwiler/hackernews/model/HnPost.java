@@ -2,26 +2,32 @@ package com.detwiler.hackernews.model;
 
 import com.detwiler.hackernews.server.HnConnection;
 
-public class HnPost {
-    private int mPoints;
+/**
+ * A {@link com.detwiler.hackernews.model.HnPost} is anything that has a post id on Hacker News. This can be a
+ * "Submission" (ex: link or self post), or a comment.
+ */
+public abstract class HnPost {
     private String mPostId;
     private String mOwner;
 
-    public HnPost(final String postId, final String owner, final int points) {
+    public HnPost(final String postId, final String owner) {
         mPostId = postId;
         mOwner = owner;
-        mPoints = points;
     }
 
+    /**
+     * Returns the ID associated with the post.
+     */
     public String getPostId() { return mPostId; }
-    public void setPostId(final String id) { mPostId = id; }
 
+    /**
+     * Returns the username of the owner of this post.
+     */
     public String getUsername() { return mOwner; }
-    public void setUsername(final String user) { mOwner = user; }
 
-    public int getPoints() { return mPoints; }
-    public void setPoints(final int points) { mPoints = points; }
-
+    /**
+     * Returns a URL that can be used to find this post on news.ycombinator.com.
+     */
     public String getPostUrl() {
         return HnConnection.HN_BASE_URL + "/item?id=" + getPostId();
     }

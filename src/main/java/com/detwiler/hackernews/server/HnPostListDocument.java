@@ -108,7 +108,7 @@ public class HnPostListDocument extends HnDocument {
             else
                 throw new RuntimeException("error");
         }
-        HnSubmission post = new HnSubmission(id, url, title, userId, points);
+        HnSubmission post = new HnSubmission(id, userId, url, title, points);
         post.setVotingEnabled(!ycPost);
         post.setSelfPost(selfPost);
         return post;

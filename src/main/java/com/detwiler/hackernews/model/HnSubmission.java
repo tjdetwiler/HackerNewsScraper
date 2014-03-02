@@ -1,25 +1,29 @@
 package com.detwiler.hackernews.model;
 
-import com.detwiler.hackernews.model.HnPost;
-
 public class HnSubmission extends HnPost {
     private String mPostUrl;
     private String mPostTitle;
     private boolean mIsSelfPost;
     private boolean mIsVotingEnabled;
+    private int mPoints;
 
-    public HnSubmission(final String postId, final String url, final String title, final String owner,
-        final int points) {
-        super(postId, owner, points);
+    public HnSubmission(final String postId, final String owner, final String url, final String title,
+                        final int points) {
+        super(postId, owner);
         mPostUrl = url;
         mPostTitle = title;
+        mPoints = points;
     }
 
     public String getSumbissionUrl() { return mPostUrl; }
-    public void setSubmissionUrl(final String url) { mPostUrl = url; }
 
     public String getTitle() { return mPostTitle; }
-    public void setTitle(final String title) { mPostTitle = title; }
+
+    /**
+     * Returns the number of points this post has received.
+     */
+    public int getPoints() { return mPoints; }
+
 
     public boolean isSelfPost() { return mIsSelfPost; }
     public void setSelfPost(final boolean selfPost) { mIsSelfPost = selfPost; }

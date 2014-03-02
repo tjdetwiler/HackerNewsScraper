@@ -1,5 +1,6 @@
 package com.detwiler.hackernews;
 
+import com.detwiler.hackernews.model.HnPost;
 import com.detwiler.hackernews.server.HnConnection;
 import com.detwiler.hackernews.server.HnLoginDocument;
 import com.detwiler.hackernews.server.HnPostDocument;
@@ -32,6 +33,13 @@ public class HnScraper {
 
     public HnPostListDocument getJobPosts() throws IOException {
         return getPostsForCategory(HnPostCategory.JOBS);
+    }
+
+    public HnPostDocument getPost(final HnPost post) throws  IOException {
+        if (post == null) {
+            return null;
+        }
+        return getPost(post.getPostId());
     }
 
     public HnPostDocument getPost(final String id) throws IOException {
