@@ -6,4 +6,7 @@ repositories {
 
 dependencies {
     compile 'org.jsoup:jsoup:1.7.2'
+
+    testCompile 'org.mockito:mockito-all:1.8.4'
+    testCompile 'junit:junit:4.10'
 }
